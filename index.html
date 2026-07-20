@@ -596,11 +596,35 @@
   </footer>
 
   <script>
+    let jaVoice = null;
+    function loadJapaneseVoice() {
+      if ('speechSynthesis' in window) {
+        const voices = window.speechSynthesis.getVoices();
+        jaVoice = voices.find(voice => voice.lang === 'ja-JP' || voice.lang.toLowerCase().includes('ja'));
+      }
+    }
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.onvoiceschanged = loadJapaneseVoice;
+      loadJapaneseVoice();
+    }
+
     function speakJapanese(text) {
       if ('speechSynthesis' in window) {
         // 播放前先取消其他發音，避免音訊重疊
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
+        
+        // 優先綁定日文語音庫，避免被作業系統或瀏覽器預設的中文語音庫誤導發音
+        if (jaVoice) {
+          utterance.voice = jaVoice;
+        } else {
+          const voices = window.speechSynthesis.getVoices();
+          const tempVoice = voices.find(voice => voice.lang === 'ja-JP' || voice.lang.toLowerCase().includes('ja'));
+          if (tempVoice) {
+            utterance.voice = tempVoice;
+          }
+        }
+        
         utterance.lang = 'ja-JP';
         utterance.rate = 0.8; // 稍微放慢語速，方便聆聽
         window.speechSynthesis.speak(utterance);
@@ -608,6 +632,7 @@
         alert('您的裝置或瀏覽器不支援語音合成功能。');
       }
     }
+
 
     const tabButtons = document.querySelectorAll('.tab-button');
     const panels = document.querySelectorAll('.tab-panel');

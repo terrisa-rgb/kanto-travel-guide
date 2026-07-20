@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>日本東京五日自助旅行｜旅・記</title>
+  <meta name="description" content="日本東京五日自助旅行的單頁式旅遊指南。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sumi: '#151312',
+            ink: '#26201d',
+            washi: '#f7f1e6',
+            paper: '#fffaf1',
+            vermilion: '#b91c1c',
+            cinnabar: '#d73f2f',
+            matcha: '#64745a',
+            indigo: '#33415c'
+          },
+          fontFamily: {
+            serifTC: ['Noto Serif TC', 'serif'],
+            sansTC: ['Noto Sans TC', 'sans-serif']
+          },
+          boxShadow: {
+            soft: '0 24px 70px rgba(21, 19, 18, 0.10)'
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      background:
+        linear-gradient(rgba(185, 28, 28, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(185, 28, 28, 0.035) 1px, transparent 1px),
+        #f7f1e6;
+      background-size: 44px 44px;
+    }
+
+    .paper-texture {
+      background-image:
+        linear-gradient(115deg, rgba(255, 250, 241, 0.96), rgba(247, 241, 230, 0.90)),
+        url('https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1800&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .stamp {
+      border: 2px solid currentColor;
+      color: #b91c1c;
+      transform: rotate(-8deg);
+      box-shadow: inset 0 0 0 5px rgba(185, 28, 28, 0.08);
+    }
+
+    .section-label::before {
+      content: '';
+      width: 36px;
+      height: 1px;
+      background: currentColor;
+      display: inline-block;
+      margin-right: 12px;
+      vertical-align: middle;
+    }
+
+    .tab-button[aria-selected='true'] {
+      background: #151312;
+      color: #fffaf1;
+      border-color: #151312;
+    }
+
+    .check-item {
+      cursor: pointer;
+      transition: color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .check-item input {
+      accent-color: #b91c1c;
+    }
+
+    .check-item.is-checked {
+      color: rgba(38, 32, 29, 0.42);
+    }
+
+    .check-item.is-checked .check-text {
+      text-decoration: line-through;
+      text-decoration-thickness: 1px;
+    }
+
+    .term {
+      position: relative;
+      border-bottom: 1px dashed #b91c1c;
+      color: #8f1414;
+      cursor: help;
+      font-weight: 700;
+    }
+
+    .term::after {
+      content: attr(data-tip);
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 10px);
+      z-index: 20;
+      width: max-content;
+      max-width: min(280px, 78vw);
+      padding: 10px 12px;
+      border: 1px solid rgba(21, 19, 18, 0.12);
+      border-radius: 6px;
+      background: #151312;
+      color: #fffaf1;
+      font-size: 0.82rem;
+      font-weight: 500;
+      line-height: 1.6;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 4px);
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      box-shadow: 0 14px 36px rgba(21, 19, 18, 0.18);
+    }
+
+    .term:hover::after,
+    .term:focus-visible::after {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .extra-detail summary {
+      list-style: none;
+      cursor: pointer;
+    }
+
+    .extra-detail summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .extra-detail summary::before {
+      content: '+';
+      display: inline-grid;
+      place-items: center;
+      width: 1.35rem;
+      height: 1.35rem;
+      margin-right: 0.55rem;
+      border: 1px solid rgba(185, 28, 28, 0.38);
+      border-radius: 999px;
+      color: #b91c1c;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .extra-detail[open] summary::before {
+      content: '-';
+      background: rgba(185, 28, 28, 0.08);
+    }
+
+    @media print {
+      /* 縮小根字型大小，讓所有 rem 單位等比例縮小 */
+      html {
+        font-size: 13px !important;
+      }
+      
+      body {
+        background: #ffffff !important;
+        background-image: none !important;
+        color: #151312 !important;
+      }
+
+      /* 移除背景圖與背景色，改為白底，以節省墨水 */
+      .paper-texture,
+      section,
+      article,
+      div,
+      span,
+      p,
+      li,
+      td,
+      th,
+      header,
+      footer {
+        background: #ffffff !important;
+        background-image: none !important;
+        color: #151312 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+      }
+
+      /* 隱藏導航列、按鈕、切換標籤與其他互動控制項 */
+      header,
+      nav,
+      .tab-button,
+      [role="tablist"],
+      button,
+      .stamp {
+        display: none !important;
+      }
+
+      /* 互動提示與裝飾符號隱藏 */
+      .term {
+        border-bottom: none !important;
+        color: #151312 !important;
+        cursor: default !important;
+      }
+      .term::after {
+        display: none !important;
+      }
+      .extra-detail summary::before {
+        display: none !important;
+      }
+
+      /* 強制展開所有的折疊內容 (details) */
+      details {
+        display: block !important;
+      }
+      details[open] summary::before,
+      details summary::before {
+        content: "" !important;
+        display: none !important;
+      }
+      details summary {
+        cursor: default !important;
+        font-weight: bold !important;
+        margin-bottom: 0.5rem !important;
+      }
+      details > * {
+        display: block !important;
+      }
+
+      /* 強制顯示所有每日行程面板（避開 JS 的 hidden 隱藏效果） */
+      .tab-panel,
+      .tab-panel.hidden {
+        display: grid !important;
+        grid-template-columns: 1fr !important; /* 單欄排列更適合 A4 寬度 */
+        gap: 1rem !important;
+        page-break-inside: avoid;
+        margin-bottom: 2rem !important;
+        border-bottom: 1px dashed #151312 !important;
+        padding-bottom: 1.5rem !important;
+      }
+
+      /* 調整排版，避免紙張邊緣切到內容 */
+      main {
+        padding-top: 0 !important;
+      }
+      section {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+        border-top: none !important;
+        border-bottom: 1px solid #e5e7eb !important;
+        page-break-inside: avoid;
+      }
+
+      /* 去除 hero 的滿版高度限制 */
+      #hero {
+        min-height: auto !important;
+        padding-top: 2rem !important;
+      }
+
+      /* 圖表保留並適度調整大小 */
+      .chart-box {
+        max-height: 250px !important;
+        page-break-inside: avoid;
+      }
+
+      /* 讓網格在列印時有更好的佈局 */
+      .grid {
+        gap: 1.5rem !important;
+      }
+      
+      .lg\:grid-cols-2 {
+        grid-template-columns: 1fr 1fr !important;
+      }
+      
+      .md\:grid-cols-3 {
+        grid-template-columns: 1fr 1fr 1fr !important;
+      }
+
+      /* 住宿區塊的白底黑字外框 */
+      .rounded {
+        border: 1px solid #151312 !important;
+        border-radius: 4px !important;
+      }
+    }
+  </style>
+</head>
+<body class="font-sansTC text-ink antialiased">
+  <header class="fixed inset-x-0 top-0 z-50 border-b border-sumi/10 bg-paper/90 backdrop-blur-md">
+    <nav class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8" aria-label="主要導覽">
+      <a href="#hero" class="font-serifTC text-lg font-black tracking-[0.12em] text-sumi">旅・記</a>
+      <div class="hidden items-center gap-1 md:flex">
+        <a class="rounded px-3 py-2 text-sm font-medium text-sumi/70 transition hover:bg-sumi/5 hover:text-sumi" href="#prepare">行前準備</a>
+        <a class="rounded px-3 py-2 text-sm font-medium text-sumi/70 transition hover:bg-sumi/5 hover:text-sumi" href="#train">電車筆記</a>
+        <a class="rounded px-3 py-2 text-sm font-medium text-sumi/70 transition hover:bg-sumi/5 hover:text-sumi" href="#overview">旅程概覽</a>
+        <a class="rounded px-3 py-2 text-sm font-medium text-sumi/70 transition hover:bg-sumi/5 hover:text-sumi" href="#daily">每日指引</a>
+      </div>
+      <a href="#daily" class="rounded border border-vermilion px-3 py-2 text-sm font-bold text-vermilion transition hover:bg-vermilion hover:text-paper">Day Tabs</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="hero" class="paper-texture relative min-h-[88svh] overflow-hidden pt-24">
+      <div class="absolute right-4 top-28 hidden select-none font-serifTC text-[9rem] font-black leading-none text-vermilion/10 lg:block">旅・記</div>
+      <div class="mx-auto grid min-h-[calc(88svh-6rem)] max-w-6xl content-center gap-10 px-4 py-14 sm:px-6 lg:px-8">
+        <div class="max-w-3xl">
+          <p class="section-label mb-6 text-sm font-bold uppercase tracking-[0.28em] text-vermilion">Tokyo five days</p>
+          <h1 class="font-serifTC text-5xl font-black leading-tight text-sumi sm:text-6xl lg:text-7xl">日本東京<br>五日自助旅行</h1>
+          <p class="mt-6 max-w-2xl text-lg leading-8 text-sumi/72 sm:text-xl">成田機場第二航廈進出，住在墨田區 Sumida Base；五天串起淺草、晴空塔、富士山河口湖、澀谷夕陽與最後採購。</p>
+          <div class="mt-8 flex flex-wrap items-center gap-4">
+            <div class="border-l-2 border-vermilion pl-4">
+              <p class="text-xs font-bold uppercase tracking-[0.22em] text-sumi/45">Travel date</p>
+              <p class="mt-1 font-serifTC text-2xl font-bold text-sumi">2026.08.29 - 09.02</p>
+            </div>
+            <div class="stamp grid size-28 place-items-center rounded p-2 font-serifTC text-xl font-black leading-tight sm:size-32 sm:text-2xl" aria-label="東京旅印章">
+              東京<br>旅印
+            </div>
+          </div>
+          <div class="mt-8 grid gap-3 text-sm leading-6 text-sumi/70 sm:grid-cols-2">
+            <div class="rounded border border-sumi/10 bg-paper/75 p-4">
+              <p class="font-bold text-sumi">去程班機</p>
+              <p>2026/8/29 虎航 IT200 06:35 - 11:00</p>
+              <p>抵達：成田機場第二航廈</p>
+            </div>
+            <div class="rounded border border-sumi/10 bg-paper/75 p-4">
+              <p class="font-bold text-sumi">回程班機</p>
+              <p>2026/9/2 星宇 JX803 16:20 - 19:00</p>
+              <p>出發：成田機場第二航廈</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-washi to-transparent"></div>
+    </section>
+
+    <section id="prepare" class="scroll-mt-24 border-y border-sumi/10 bg-paper py-20">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <p class="section-label text-sm font-bold uppercase tracking-[0.24em] text-vermilion">Before departure</p>
+        <div class="mt-5 grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+          <div>
+            <h2 class="font-serifTC text-4xl font-black text-sumi">行前準備</h2>
+            <p class="mt-4 max-w-xl leading-8 text-sumi/70">出發前先確認證件、支付、交通卡與日本旅遊習慣。這一區就是最後打包與登機前的快速檢查表。</p>
+          </div>
+          <div class="grid gap-4 md:grid-cols-3">
+            <article class="rounded border border-sumi/10 bg-washi p-5">
+              <h3 class="font-serifTC text-xl font-bold text-sumi">必備物品</h3>
+              <ul class="mt-5 space-y-3 text-sm leading-6 text-sumi/72" data-checklist>
+                <li><label class="check-item flex items-start gap-3"><input class="mt-1 size-4 shrink-0" type="checkbox"><span class="check-text">護照</span></label></li>
+                <li><label class="check-item flex items-start gap-3"><input class="mt-1 size-4 shrink-0" type="checkbox"><span class="check-text">日圓現金</span></label></li>
+                <li><label class="check-item flex items-start gap-3"><input class="mt-1 size-4 shrink-0" type="checkbox"><span class="check-text">行動電源</span></label></li>
+                <li><label class="check-item flex items-start gap-3"><input class="mt-1 size-4 shrink-0" type="checkbox"><span class="check-text">舒適好走的鞋</span></label></li>
+                <li><label class="check-item flex items-start gap-3"><input class="mt-1 size-4 shrink-0" type="checkbox"><span class="check-text">摺疊傘</span></label></li>
+                <li><label class="check-item flex items-start gap-3"><input class="mt-1 size-4 shrink-0" type="checkbox"><span class="check-text">小毛巾</span></label></li>
+                <li><label class="check-item flex items-start gap-3"><input class="mt-1 size-4 shrink-0" type="checkbox"><span class="check-text">eSIM</span></label></li>
+              </ul>
+            </article>
+            <article class="rounded border border-sumi/10 bg-washi p-5">
+              <h3 class="font-serifTC text-xl font-bold text-sumi"><span class="term" tabindex="0" data-tip="日本常用的 IC 交通卡，可搭電車、巴士，也能在便利商店小額付款。">Suica</span> 交通卡</h3>
+              <p class="mt-5 text-sm leading-7 text-sumi/72">抵達成田機場第二航廈後先處理交通卡與儲值，建議一開始儲值 5000 日圓。後續搭電車、便利商店小額支付都會順很多。</p>
+            </article>
+            <article class="rounded border border-sumi/10 bg-washi p-5">
+              <h3 class="font-serifTC text-xl font-bold text-sumi">台灣旅客注意</h3>
+              <ul class="mt-5 space-y-3 text-sm leading-6 text-sumi/72">
+                <li>免簽 90 天</li>
+                <li>Visit Japan Web</li>
+                <li>電壓 100V、時差 +1 小時</li>
+                <li>室內冷氣強、不收小費</li>
+                <li>電車禁打電話、走路靠左</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="train" class="scroll-mt-24 bg-washi py-20">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+          <div>
+            <p class="section-label text-sm font-bold uppercase tracking-[0.24em] text-vermilion">Train notes</p>
+            <h2 class="mt-5 font-serifTC text-4xl font-black text-sumi">電車車種筆記</h2>
+          </div>
+          <p class="max-w-md leading-7 text-sumi/65">最常踩雷：搭錯車種。東京搭車時，確認列車終點方向與停靠站比只看路線名更重要，尤其遇到<span class="term" tabindex="0" data-tip="不同鐵道公司或不同路線互相接續，列車不用換車就會開進另一條線。">直通運轉</span>與不同停靠等級時。</p>
+        </div>
+        <div class="mt-8 grid gap-3 sm:grid-cols-2">
+          <div class="rounded border border-vermilion/30 bg-paper p-4 text-sm leading-7 text-sumi/75">
+            <strong class="text-vermilion">最常踩雷</strong>：同一月台可能來各停、急行、特急，停靠站不同，先確認車種再上車。
+          </div>
+          <div class="rounded border border-sumi/10 bg-paper p-4 text-sm leading-7 text-sumi/75">
+            <strong class="text-sumi">判斷重點</strong>：確認列車終點方向與停靠站，避免搭到方向相同但終點不同的列車。
+          </div>
+        </div>
+        <div class="mt-6 overflow-hidden rounded border border-sumi/10 bg-paper shadow-soft">
+          <div class="grid grid-cols-4 border-b border-sumi/10 bg-sumi px-4 py-3 text-sm font-bold text-paper sm:px-6">
+            <span>車種</span><span>顏色</span><span>特性</span><span>提醒</span>
+          </div>
+          <div class="divide-y divide-sumi/10 text-sm sm:text-base">
+            <div class="grid grid-cols-4 gap-3 px-4 py-5 sm:px-6"><strong>各停</strong><span class="font-bold text-zinc-500">灰</span><span>每站停靠</span><span>最穩但較慢</span></div>
+            <div class="grid grid-cols-4 gap-3 px-4 py-5 sm:px-6"><strong>急行</strong><span class="font-bold text-blue-700">藍</span><span>跳過部分站</span><span>先確認目的站有停</span></div>
+            <div class="grid grid-cols-4 gap-3 px-4 py-5 sm:px-6"><strong>特急</strong><span class="font-bold text-orange-600">橘</span><span>主要大站停靠</span><span>部分列車需加購</span></div>
+            <div class="grid grid-cols-4 gap-3 px-4 py-5 sm:px-6"><strong><span class="term" tabindex="0" data-tip="連接東急東橫線、東京 Metro 副都心線、西武、東武、橫濱高速鐵道的速達直通列車。">F-Liner</span></strong><span class="font-bold text-vermilion">紅</span><span>五社直通</span><span>注意終點方向與直通區間</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="overview" class="scroll-mt-24 border-y border-sumi/10 bg-paper py-20">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <p class="section-label text-sm font-bold uppercase tracking-[0.24em] text-vermilion">Trip overview</p>
+        <h2 class="mt-5 font-serifTC text-4xl font-black text-sumi">五日旅程概覽</h2>
+        <div class="mt-10 grid gap-8 lg:grid-cols-2">
+          <article class="rounded border border-sumi/10 bg-washi p-5 shadow-soft sm:p-6">
+            <div class="mb-5 flex items-baseline justify-between border-b border-sumi/10 pb-3">
+              <h3 class="font-serifTC text-2xl font-bold text-sumi">每日體力消耗預測</h3>
+              <span class="text-xs font-bold uppercase tracking-[0.2em] text-sumi/45">Fatigue 1-10</span>
+            </div>
+            <div class="chart-box">
+              <canvas id="energyChart" aria-label="每日體力消耗預測折線圖" role="img"></canvas>
+            </div>
+            <p class="mt-5 text-sm leading-7 text-sumi/65">Day 2 與 Day 4 疲累指數最高，分別是淺草、上野、晴空塔，以及原宿、表參道、澀谷夕陽。</p>
+          </article>
+          <article class="rounded border border-sumi/10 bg-washi p-5 shadow-soft sm:p-6">
+            <div class="mb-5 flex items-baseline justify-between border-b border-sumi/10 pb-3">
+              <h3 class="font-serifTC text-2xl font-bold text-sumi">每日交通花費</h3>
+              <span class="text-xs font-bold uppercase tracking-[0.2em] text-sumi/45">JPY</span>
+            </div>
+            <div class="chart-box">
+              <canvas id="transportChart" aria-label="每日交通花費長條圖" role="img"></canvas>
+            </div>
+            <p class="mt-5 text-sm leading-7 text-sumi/65">滑鼠停在長條上可查看當日車票明細；Day 3 以富士山包車相關交通費最高。</p>
+          </article>
+        </div>
+        <article class="mt-8 rounded border border-sumi/10 bg-washi p-5 sm:p-6">
+          <div class="mb-4 flex items-baseline justify-between border-b border-sumi/10 pb-3">
+            <h3 class="font-serifTC text-2xl font-bold text-sumi">行程與住宿</h3>
+            <span class="text-xs font-bold uppercase tracking-[0.2em] text-sumi/45">Plan</span>
+          </div>
+          <div class="grid gap-4 text-sm leading-7 text-sumi/75 lg:grid-cols-5">
+            <div class="border-b border-sumi/10 pb-3 lg:border-b-0 lg:border-r lg:pr-4"><strong class="block text-sumi">Day 1</strong><span>8/29 星期六｜成田抵達、入住墨田、淺草夜散步</span></div>
+            <div class="border-b border-sumi/10 pb-3 lg:border-b-0 lg:border-r lg:pr-4"><strong class="block text-sumi">Day 2</strong><span>8/30 星期日｜淺草、上野、晴空塔、敘敘苑訂位</span></div>
+            <div class="border-b border-sumi/10 pb-3 lg:border-b-0 lg:border-r lg:pr-4"><strong class="block text-sumi">Day 3</strong><span>8/31 星期一｜河口湖、富士山包車</span></div>
+            <div class="border-b border-sumi/10 pb-3 lg:border-b-0 lg:border-r lg:pr-4"><strong class="block text-sumi">Day 4</strong><span>9/1 星期二｜明治神宮、表參道、澀谷、Shibuya Sky 夕陽</span></div>
+            <div><strong class="block text-sumi">Day 5</strong><span>9/2 星期三｜採購、行李整理、成田返程</span></div>
+          </div>
+          <div class="mt-8 rounded border border-sumi/10 bg-paper p-5">
+            <p class="text-xs font-bold uppercase tracking-[0.22em] text-vermilion">Stay</p>
+            <h4 class="mt-2 font-serifTC text-2xl font-bold text-sumi">Sumida Base</h4>
+            <p class="mt-3 text-sm leading-7 text-sumi/70">4 Chome-39-16-4 Higashimukojima, Sumida City, Tokyo 131-0032 日本</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="daily" class="scroll-mt-24 bg-washi py-20">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <p class="section-label text-sm font-bold uppercase tracking-[0.24em] text-vermilion">Daily guide</p>
+        <h2 class="mt-5 font-serifTC text-4xl font-black text-sumi">每日詳細交通指引</h2>
+        <div class="mt-10 flex snap-x gap-2 overflow-x-auto pb-2" role="tablist" aria-label="每日行程切換">
+          <button class="tab-button shrink-0 snap-start rounded border border-sumi/20 px-5 py-3 text-sm font-bold" type="button" role="tab" aria-selected="true" aria-controls="day-1" data-tab="day-1">Day 1</button>
+          <button class="tab-button shrink-0 snap-start rounded border border-sumi/20 px-5 py-3 text-sm font-bold" type="button" role="tab" aria-selected="false" aria-controls="day-2" data-tab="day-2">Day 2</button>
+          <button class="tab-button shrink-0 snap-start rounded border border-sumi/20 px-5 py-3 text-sm font-bold" type="button" role="tab" aria-selected="false" aria-controls="day-3" data-tab="day-3">Day 3</button>
+          <button class="tab-button shrink-0 snap-start rounded border border-sumi/20 px-5 py-3 text-sm font-bold" type="button" role="tab" aria-selected="false" aria-controls="day-4" data-tab="day-4">Day 4</button>
+          <button class="tab-button shrink-0 snap-start rounded border border-sumi/20 px-5 py-3 text-sm font-bold" type="button" role="tab" aria-selected="false" aria-controls="day-5" data-tab="day-5">Day 5</button>
+        </div>
+        <div class="mt-6 rounded border border-sumi/10 bg-paper p-6 shadow-soft sm:p-8">
+          <article id="day-1" class="tab-panel grid gap-8 lg:grid-cols-[0.7fr_1.3fr]" role="tabpanel">
+            <div><p class="text-sm font-bold uppercase tracking-[0.22em] text-vermilion">Arrival</p><h3 class="mt-3 font-serifTC text-3xl font-black">Day 1｜8/29 成田抵達與下町暖身</h3></div>
+            <div>
+              <ol class="space-y-5 border-l border-sumi/15 pl-6 leading-7 text-sumi/72"><li><strong class="text-sumi">06:35</strong> 虎航 IT200 台灣出發。</li><li><strong class="text-sumi">11:00</strong> 抵達成田機場第二航廈，先處理 <span class="term" tabindex="0" data-tip="日本常用的 IC 交通卡，可搭電車、巴士，也能在便利商店小額付款。">Suica</span> / 交通卡與儲值。</li><li><strong class="text-sumi">午後</strong> 搭車前往 Sumida Base，放行李後到押上或淺草熟悉周邊。</li><li><strong class="text-sumi">晚餐</strong> 淺草周邊輕鬆吃；若想熱鬧一點，可排鳥貴族淺草六區店。</li></ol>
+              <div class="mt-6 space-y-3">
+                <details class="extra-detail rounded border border-sumi/10 bg-washi p-4 text-sm leading-7 text-sumi/72"><summary class="font-bold text-sumi">實用日語</summary><p class="mt-3">請問往押上的車在哪裡？可說「押上方面はどちらですか」。買票、問路時把站名給站務員看最穩。</p></details>
+                <details class="extra-detail rounded border border-sumi/10 bg-washi p-4 text-sm leading-7 text-sumi/72"><summary class="font-bold text-sumi">天氣對策</summary><p class="mt-3">抵達日先把摺疊傘放在隨身包，午後若遇雷雨，押上與淺草都有室內商場或店家可躲雨。</p></details>
+              </div>
+            </div>
+          </article>
+          <article id="day-2" class="tab-panel hidden grid gap-8 lg:grid-cols-[0.7fr_1.3fr]" role="tabpanel">
+            <div><p class="text-sm font-bold uppercase tracking-[0.22em] text-vermilion">Asakusa / Skytree</p><h3 class="mt-3 font-serifTC text-3xl font-black">Day 2｜8/30 淺草、上野、晴空塔</h3></div>
+            <div>
+              <ol class="space-y-5 border-l border-sumi/15 pl-6 leading-7 text-sumi/72"><li><strong class="text-sumi">上午</strong> 淺草寺、仲見世通、雷門，避開正午人潮先拍照。</li><li><strong class="text-sumi">中午</strong> 上野公園或阿美橫町散步採買，小吃與藥妝可先補一輪。</li><li><strong class="text-sumi">下午</strong> 回押上逛東京 Solamachi，預留時間上晴空塔周邊拍照。</li><li><strong class="text-sumi">17:30</strong> 敘敘苑 東京晴空塔城 Solamachi 30F，2 位訂位。</li><li><strong class="text-sumi">18:00</strong> 敘敘苑 東京晴空塔城 Solamachi 30F，4 位訂位。</li></ol>
+              <div class="mt-6 space-y-3">
+                <details class="extra-detail rounded border border-sumi/10 bg-washi p-4 text-sm leading-7 text-sumi/72"><summary class="font-bold text-sumi">實用日語</summary><p class="mt-3">餐廳報到可說「予約しています」，再出示訂位姓名與人數。分成 17:30 兩位、18:00 四位要特別提醒。</p></details>
+                <details class="extra-detail rounded border border-sumi/10 bg-washi p-4 text-sm leading-7 text-sumi/72"><summary class="font-bold text-sumi">天氣對策</summary><p class="mt-3">淺草到上野多為戶外步行，若太熱就把上野縮短，提早進 Solamachi 室內逛街休息。</p></details>
+              </div>
+            </div>
+          </article>
+          <article id="day-3" class="tab-panel hidden grid gap-8 lg:grid-cols-[0.7fr_1.3fr]" role="tabpanel">
+            <div><p class="text-sm font-bold uppercase tracking-[0.22em] text-vermilion">Fuji Day</p><h3 class="mt-3 font-serifTC text-3xl font-black">Day 3｜8/31 河口湖、富士山包車</h3></div>
+            <div>
+              <ol class="space-y-5 border-l border-sumi/15 pl-6 leading-7 text-sumi/72"><li><strong class="text-sumi">清晨</strong> 從 Sumida Base 出發，建議早餐與水先備好。</li><li><strong class="text-sumi">上午</strong> 河口湖、大石公園或富士山景觀點，依天氣調整拍照順序。</li><li><strong class="text-sumi">午後</strong> 可加入忍野八海、新倉山淺間公園或富士山周邊咖啡停留。</li><li><strong class="text-sumi">晚餐</strong> 回東京後保留彈性；若還有精神，可補大福園街頭燒肉。</li></ol>
+              <div class="mt-6 space-y-3">
+                <details class="extra-detail rounded border border-sumi/10 bg-washi p-4 text-sm leading-7 text-sumi/72"><summary class="font-bold text-sumi">實用日語</summary><p class="mt-3">包車集合時可用「おはようございます、よろしくお願いします」。臨時改點可說「天気を見て順番を変えたいです」。</p></details>
+                <details class="extra-detail rounded border border-sumi/10 bg-washi p-4 text-sm leading-7 text-sumi/72"><summary class="font-bold text-sumi">天氣對策</summary><p class="mt-3">富士山能見度很吃天氣。若雲厚，先排近景、湖邊與咖啡店，看到山頭露出再衝拍照點。</p></details>
+              </div>
+            </div>
+          </article>
+          <article id="day-4" class="tab-panel hidden grid gap-8 lg:grid-cols-[0.7fr_1.3fr]" role="tabpanel">
+            <div><p class="text-sm font-bold uppercase tracking-[0.22em] text-vermilion">Shibuya Sunset</p><h3 class="mt-3 font-serifTC text-3xl font-black">Day 4｜9/1 原宿、表參道、澀谷夕陽</h3></div>
+            <div>
+              <ol class="space-y-5 border-l border-sumi/15 pl-6 leading-7 text-sumi/72"><li><strong class="text-sumi">上午</strong> 明治神宮、原宿竹下通，城市與綠意先交錯開場。</li><li><strong class="text-sumi">午後</strong> 表參道、青山一帶散步，安排咖啡休息避免步行過載。</li><li><strong class="text-sumi">傍晚</strong> Shibuya Sky 高空夕陽，建議預約夕陽前 60-90 分鐘入場時段。</li><li><strong class="text-sumi">晚餐</strong> 澀谷周邊用餐或回淺草吃鳥貴族；本日步行量最大，確認列車終點方向與停靠站。</li></ol>
+              <div class="mt-6 space-y-3">
+                <details class="extra-detail rounded border border-sumi/10 bg-washi p-4 text-sm leading-7 text-sumi/72"><summary class="font-bold text-sumi">實用日語</summary><p class="mt-3">Shibuya Sky 入場可準備電子票。詢問排隊入口時可說「入口はどちらですか」。</p></details>
+                <details class="extra-detail rounded border border-sumi/10 bg-washi p-4 text-sm leading-7 text-sumi/72"><summary class="font-bold text-sumi">天氣對策</summary><p class="mt-3">高空展望遇強風或雨勢可能影響戶外區域。若天氣差，改把澀谷購物與餐廳時間拉長。</p></details>
+              </div>
+            </div>
+          </article>
+          <article id="day-5" class="tab-panel hidden grid gap-8 lg:grid-cols-[0.7fr_1.3fr]" role="tabpanel">
+            <div><p class="text-sm font-bold uppercase tracking-[0.22em] text-vermilion">Departure</p><h3 class="mt-3 font-serifTC text-3xl font-black">Day 5｜9/2 採購及返程</h3></div>
+            <div>
+              <ol class="space-y-5 border-l border-sumi/15 pl-6 leading-7 text-sumi/72"><li><strong class="text-sumi">上午</strong> 退房與行李整理；可去押上 Solamachi、淺草或上野做最後採購。</li><li><strong class="text-sumi">中午</strong> 建議 12:30 前後往成田機場第二航廈移動，保留報到與購物時間。</li><li><strong class="text-sumi">16:20</strong> 星宇 JX803 起飛。</li><li><strong class="text-sumi">19:00</strong> 抵達台灣，結束五日東京旅・記。</li></ol>
+              <div class="mt-6 space-y-3">
+                <details class="extra-detail rounded border border-sumi/10 bg-washi p-4 text-sm leading-7 text-sumi/72"><summary class="font-bold text-sumi">實用日語</summary><p class="mt-3">寄物或詢問置物櫃可說「コインロッカーはありますか」。機場報到出示護照與電子機票即可。</p></details>
+                <details class="extra-detail rounded border border-sumi/10 bg-washi p-4 text-sm leading-7 text-sumi/72"><summary class="font-bold text-sumi">天氣對策</summary><p class="mt-3">返程日不要排太遠的戶外點。若下雨，押上 Solamachi 或上野車站周邊採購最省力。</p></details>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-sumi/10 bg-sumi px-4 py-8 text-center text-sm text-paper/70">
+    <p class="font-serifTC tracking-[0.2em]">東京五日旅・記</p>
+  </footer>
+
+  <script>
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const panels = document.querySelectorAll('.tab-panel');
+    const checklistItems = document.querySelectorAll('[data-checklist] input[type="checkbox"]');
+
+    tabButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const target = button.dataset.tab;
+
+        tabButtons.forEach((item) => item.setAttribute('aria-selected', String(item === button)));
+        panels.forEach((panel) => panel.classList.toggle('hidden', panel.id !== target));
+      });
+    });
+
+    checklistItems.forEach((checkbox) => {
+      checkbox.addEventListener('change', () => {
+        checkbox.closest('.check-item').classList.toggle('is-checked', checkbox.checked);
+      });
+    });
+    const chartLabels = ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'];
+    const chartTextColor = '#26201d';
+    const chartGridColor = 'rgba(38, 32, 29, 0.10)';
+
+    if (window.Chart) {
+      const energyCanvas = document.querySelector('#energyChart');
+      const transportCanvas = document.querySelector('#transportChart');
+
+      if (energyCanvas) {
+        new Chart(energyCanvas, {
+          type: 'line',
+          data: {
+            labels: chartLabels,
+            datasets: [{
+              label: '疲累指數',
+              data: [3, 9, 6, 9, 3],
+              borderColor: '#b91c1c',
+              backgroundColor: 'rgba(185, 28, 28, 0.10)',
+              pointBackgroundColor: ['#fffaf1', '#b91c1c', '#fffaf1', '#b91c1c', '#fffaf1'],
+              pointBorderColor: '#b91c1c',
+              pointBorderWidth: [2, 4, 2, 4, 2],
+              pointRadius: [4, 8, 4, 8, 4],
+              pointHoverRadius: [6, 10, 6, 10, 6],
+              tension: 0.35,
+              fill: true
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  afterLabel(context) {
+                    const notes = ['抵達日，有時差', '淺草、上野、晴空塔', '河口湖、富士山', '原宿、表參道、澀谷', '返程'];
+                    return notes[context.dataIndex];
+                  }
+                }
+              }
+            },
+            scales: {
+              y: {
+                min: 1,
+                max: 10,
+                ticks: { stepSize: 1, color: chartTextColor },
+                title: { display: true, text: '疲累指數', color: chartTextColor },
+                grid: { color: chartGridColor }
+              },
+              x: {
+                ticks: { color: chartTextColor },
+                grid: { display: false }
+              }
+            }
+          }
+        });
+      }
+
+      if (transportCanvas) {
+        new Chart(transportCanvas, {
+          type: 'bar',
+          data: {
+            labels: chartLabels,
+            datasets: [{
+              label: '交通花費',
+              data: [1200, 800, 2400, 600, 1200],
+              backgroundColor: ['#64745a', '#b91c1c', '#33415c', '#d73f2f', '#64745a'],
+              borderColor: '#151312',
+              borderWidth: 1,
+              borderRadius: 6,
+              maxBarThickness: 54
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label(context) {
+                    return `交通花費：約 ${context.formattedValue} 日圓`;
+                  },
+                  afterLabel(context) {
+                    const details = [
+                      '機場到飯店',
+                      '東京市內移動',
+                      '富士山包車相關交通',
+                      '市內移動',
+                      '回機場'
+                    ];
+                    return `明細：${details[context.dataIndex]}`;
+                  }
+                }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  color: chartTextColor,
+                  callback(value) {
+                    return `${value} 円`;
+                  }
+                },
+                title: { display: true, text: '日圓', color: chartTextColor },
+                grid: { color: chartGridColor }
+              },
+              x: {
+                ticks: { color: chartTextColor },
+                grid: { display: false }
+              }
+            }
+          }
+        });
+      }
+    }
+  </script>
+</body>
+</html>
+
+
+
